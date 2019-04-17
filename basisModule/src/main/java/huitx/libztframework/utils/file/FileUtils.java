@@ -1,10 +1,6 @@
 package huitx.libztframework.utils.file;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

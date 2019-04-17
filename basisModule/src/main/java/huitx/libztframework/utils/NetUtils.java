@@ -1,12 +1,11 @@
 package huitx.libztframework.utils;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import huitx.libztframework.R;
 import huitx.libztframework.context.LibApplicationData;
 

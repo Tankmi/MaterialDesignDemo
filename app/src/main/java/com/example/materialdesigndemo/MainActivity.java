@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.PreferencesUtils;
@@ -49,13 +50,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void addOnBackPressedCallback(@NonNull LifecycleOwner owner, @NonNull OnBackPressedCallback onBackPressedCallback) {
+
         super.addOnBackPressedCallback(owner, onBackPressedCallback);
     }
+
 
     private void FragmentMethod(){
         FragmentManager manager = getSupportFragmentManager();
 
         FragmentTransaction mTransaction = manager.beginTransaction();
+
+        HomeFragment mHomeFragment = new HomeFragment();
+        InfoFragment mInfoFragment = new InfoFragment();
+
+        //当前Fragment设置一个目标Fragment和一个请求码
+        mHomeFragment.setTargetFragment(mInfoFragment, 100);
+
+//        mTransaction.add(mHomeFragment, "home");
+//        mTransaction.add(mInfoFragment, "info");
+        mTransaction.replace(R.id.frame_main, mInfoFragment);
+
+        mTransaction.commitAllowingStateLoss();
+
 
 
     }
@@ -78,11 +94,13 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 Log.i("test", "加载菜单");
 
+
                 Snackbar.make(mtoolBar, "snackbar", Snackbar.LENGTH_INDEFINITE)
                         .setAction("undo", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Log.i("test", "click Snackbar");
+                                FragmentMethod();
                             }
                         })
                         .show();
