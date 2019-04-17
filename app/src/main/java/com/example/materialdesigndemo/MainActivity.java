@@ -2,24 +2,25 @@ package com.example.materialdesigndemo;
 
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DrawableUtils;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.example.materialdesigndemo.context.PreferenceEntity;
+import com.google.android.material.snackbar.Snackbar;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 import huitx.libztframework.utils.LOGUtils;
-import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.PreferencesUtils;
 
 import static huitx.libztframework.utils.LOGUtils.LOG;
@@ -40,10 +41,26 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setHomeAsUpIndicator(
-//                    NewWidgetSetting.getInstance().getWeightDrawable(R.drawable.menu_icon, 10, 10, false));
+            actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);
         }
+
     }
+
+
+    @Override
+    public void addOnBackPressedCallback(@NonNull LifecycleOwner owner, @NonNull OnBackPressedCallback onBackPressedCallback) {
+        super.addOnBackPressedCallback(owner, onBackPressedCallback);
+    }
+
+    private void FragmentMethod(){
+        FragmentManager manager = getSupportFragmentManager();
+
+        FragmentTransaction mTransaction = manager.beginTransaction();
+
+
+    }
+
+
 
 
     @Override
