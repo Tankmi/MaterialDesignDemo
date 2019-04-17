@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         HomeFragment mHomeFragment = new HomeFragment();
         InfoFragment mInfoFragment = new InfoFragment();
 
+        mTransaction.addToBackStack(null);  //监听回退栈
+
         //当前Fragment设置一个目标Fragment和一个请求码
         mHomeFragment.setTargetFragment(mInfoFragment, 100);
 
