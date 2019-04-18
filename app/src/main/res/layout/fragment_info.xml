@@ -3,42 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ccffbb"
-    >
+    android:background="#dd2300">
+
     <TextView
-        android:id="@+id/tv_home_fra"
+        android:id="@+id/tv_info_fra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Fragment"
+        android:text="Info Fragment"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/et_home_fra"
+        android:id="@+id/et_info_fra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="点击输入内容"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_fra" />
+        app:layout_constraintTop_toBottomOf="@id/tv_info_fra" />
 
     <Button
-        android:id="@+id/btn_home_fra"
+        android:id="@+id/btn_info_fra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="click me"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_home_fra" />
-
-    <FrameLayout
-        android:id="@+id/frame_home_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_home_fra" />
+        app:layout_constraintTop_toBottomOf="@id/et_info_fra" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,31 +48,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void addOnBackPressedCallback(@NonNull LifecycleOwner owner, @NonNull OnBackPressedCallback onBackPressedCallback) {
-
-        super.addOnBackPressedCallback(owner, onBackPressedCallback);
-    }
-
-
+    HomeFragment mHomeFragment;
     private void FragmentMethod(){
         FragmentManager manager = getSupportFragmentManager();
 
         FragmentTransaction mTransaction = manager.beginTransaction();
 
-        HomeFragment mHomeFragment = new HomeFragment();
-        InfoFragment mInfoFragment = new InfoFragment();
+       if(mHomeFragment == null) mHomeFragment = new HomeFragment();
+        else LOGUtils.LOG("mHomeFragment != null");
 
-        mTransaction.addToBackStack(null);  //监听回退栈
-
-        //当前Fragment设置一个目标Fragment和一个请求码
-        mHomeFragment.setTargetFragment(mInfoFragment, 100);
-
-//        mTransaction.add(mHomeFragment, "home");
-//        mTransaction.add(mInfoFragment, "info");
-        mTransaction.replace(R.id.frame_main, mInfoFragment);
+       if(mHomeFragment.isAdded()){
+           mTransaction.show(mHomeFragment);
+       }else {
+           mTransaction.addToBackStack(null);  //监听回退栈
+           mTransaction.replace(R.id.frame_main, mHomeFragment);
+       }
 
         mTransaction.commitAllowingStateLoss();
+
+        LOG("getFragments().size()   " + manager.getFragments().size());
+
 
 
 
@@ -95,17 +90,17 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case android.R.id.home:
                 Log.i("test", "加载菜单");
+                FragmentMethod();
 
-
-                Snackbar.make(mtoolBar, "snackbar", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("undo", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.i("test", "click Snackbar");
-                                FragmentMethod();
-                            }
-                        })
-                        .show();
+//                Snackbar.make(mtoolBar, "snackbar", Snackbar.LENGTH_INDEFINITE)
+//                        .setAction("undo", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Log.i("test", "click Snackbar");
+//
+//                            }
+//                        })
+//                        .show();
                 break;
         }
         return true;
