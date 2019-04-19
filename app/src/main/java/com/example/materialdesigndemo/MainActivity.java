@@ -1,13 +1,18 @@
 package com.example.materialdesigndemo;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.Slide;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 
 import com.example.materialdesigndemo.context.PreferenceEntity;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,10 +22,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.transition.ChangeBounds;
+import androidx.transition.ChangeImageTransform;
+import androidx.transition.ChangeScroll;
+import androidx.transition.ChangeTransform;
+import androidx.transition.Fade;
+import androidx.transition.TransitionSet;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.PreferencesUtils;
 
@@ -29,15 +42,22 @@ import static huitx.libztframework.utils.LOGUtils.LOG;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar mtoolBar;
+    private ImageView mImg;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        if (savedInstanceState == null) FragmentMethod();
 
         mtoolBar = findViewById(R.id.toolbar_title);
-        setSupportActionBar(mtoolBar);
+        mImg = findViewById(R.id.img_main);
 
+        ViewCompat.setTransitionName(mImg, getResources().getString(R.string.home_sharedelement));
+
+        setSupportActionBar(mtoolBar);
         //获取actionbar对象，也就是这里的toolbar，设置左侧按钮的图标（默认是返回键）
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -47,34 +67,53 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    FragmentManager manager;
+    FragmentTransaction mTransaction;
     HomeFragment mHomeFragment;
-    private void FragmentMethod(){
-        FragmentManager manager = getSupportFragmentManager();
 
-        FragmentTransaction mTransaction = manager.beginTransaction();
+    private void FragmentMethod() {
+        if (manager == null) manager = getSupportFragmentManager();
+        mTransaction = manager.beginTransaction();
+        if (mHomeFragment == null){
+//            mHomeFragment = new HomeFragment();
+            mHomeFragment = HomeFragment.newInstance(R.drawable.lianpo);
 
-       if(mHomeFragment == null) mHomeFragment = new HomeFragment();
-        else LOGUtils.LOG("mHomeFragment != null");
+            //Fade 淡入淡出
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {  //使用androidx版本库，可以兼容低版本
 
-       if(mHomeFragment.isAdded()){
-           mTransaction.show(mHomeFragment);
-       }else {
-           mTransaction.addToBackStack(null);  //监听回退栈
-           mTransaction.replace(R.id.frame_main, mHomeFragment);
-       }
+                //设置WindowTransition,除指定的ShareElement外，其它所有View都会执行这个Transition动画
+                mHomeFragment.setEnterTransition(new Fade());
+                mHomeFragment.setExitTransition(new Fade());
+                //设置ShareElementTransition,指定的ShareElement会执行这个Transiton动画
+                mHomeFragment.setSharedElementEnterTransition(new DetailTransition());
+                mHomeFragment.setSharedElementReturnTransition(new DetailTransition());
+//            }
+        }
 
-        mTransaction.commitAllowingStateLoss();
+        if (mHomeFragment.isAdded()) {
+            mTransaction.show(mHomeFragment);
+        } else {
+            mTransaction.addSharedElement(mImg, getResources().getString(R.string.home_sharedelement));
+            mTransaction.addToBackStack(null);  //监听回退栈
+//            mTransaction.setCustomAnimations(R.anim.act_enter_anim, R.anim.act_exit_anim, R.anim.act_enter_anim, R.anim.act_exit_anim);
+            mTransaction.add(R.id.frame_main, mHomeFragment);
+            mTransaction.commitAllowingStateLoss();
+        }
 
-        LOG("getFragments().size()   " + manager.getFragments().size());
 
 
+        LOG("getFragments().size()   " + manager.getFragments().size() + "\n"
+                + "getFragments().toString()   " + manager.getFragments().toString());
 
 
     }
 
+    @Override
+    public void onAttachFragment(@NonNull Fragment fragment) {
+        super.onAttachFragment(fragment);
 
-
+        LOG("onAttachFragment : " + fragment.getId());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -173,4 +212,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    public class DetailTransition extends TransitionSet {
+        public DetailTransition() {
+            init();
+        }
+
+        // 允许资源文件使用
+        public DetailTransition(Context context, AttributeSet attrs) {
+            super(context, attrs);
+            init();
+        }
+
+        private void init() {
+            setOrdering(ORDERING_TOGETHER);
+            addTransition(new ChangeBounds())   //View的大小与位置动画
+                    . addTransition(new ChangeTransform()) //View的缩放与旋转动画
+                    .addTransition(new ChangeScroll())  //处理View的scrollX与scrollY属性
+                    . addTransition(new ChangeImageTransform());    //处理ImageView的ScaleType属性
+        }
+    }
+
+
+
 }

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">MaterialDesignDemo</string>
+
+
+    <string name="home_sharedelement">home_sharedelement</string>
 </resources>
