@@ -4,20 +4,17 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.Slide;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.materialdesigndemo.context.PreferenceEntity;
-import com.google.android.material.snackbar.Snackbar;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +23,6 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeScroll;
@@ -43,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar mtoolBar;
     private ImageView mImg;
+    private Button btn_main_01;
 
 
     @Override
@@ -54,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         mtoolBar = findViewById(R.id.toolbar_title);
         mImg = findViewById(R.id.img_main);
+        btn_main_01 = findViewById(R.id.btn_main_01);
+        btn_main_01.setOnClickListener(view ->{
+            goFileFragment();
+        });
 
         ViewCompat.setTransitionName(mImg, getResources().getString(R.string.home_sharedelement));
 
@@ -65,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);
         }
 
+    }
+
+    private void goFileFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frame_main, new FileFragment())
+                .commitAllowingStateLoss();
     }
 
     FragmentManager manager;
