@@ -3,15 +3,18 @@ package com.example.materialdesigndemo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,6 +24,7 @@ import java.io.OutputStreamWriter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.EnvironmentCompat;
 import androidx.fragment.app.Fragment;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.ToastUtils;
@@ -30,8 +34,9 @@ import huitx.libztframework.utils.ToastUtils;
  */
 public class FileFragment extends Fragment{
     protected View mView; // 当前界面的根
+    private TextView mInfoTv;
     private EditText inputtEt;
-    private Button fileWriteBtn, fileReadBtn;
+    private Button fileWriteBtn, fileReadBtn, fileDelBtn;
 
     private static final String ARG_NUMBER = "arg_number";
 
@@ -58,18 +63,49 @@ public class FileFragment extends Fragment{
         mView = View.inflate(getActivity(), R.layout.fragment_file, null);
 //		view = inflater.inflate(layoutId, container, false);
 
+        mInfoTv = mView.findViewById(R.id.tv_file_fra);
         inputtEt = mView.findViewById(R.id.et_file_fra);
         fileWriteBtn = mView.findViewById(R.id.btn_write_file_fra);
         fileReadBtn = mView.findViewById(R.id.btn_read_file_fra);
+        fileDelBtn = mView.findViewById(R.id.btn_delete_file_fra);
 
         fileWriteBtn.setOnClickListener(view -> {   //缓存文本内容到文件中
-            LOGUtils.LOG("缓存文本 " + writeFile());
+//            LOGUtils.LOG("缓存文本 " + writeFile());
+            setText(writeFile());
         });
 
         fileReadBtn.setOnClickListener(view ->{ //读取文本
-            LOGUtils.LOG("读取文本 " + readFile());
+            setText(readFile());
         });
+
+        fileDelBtn.setOnClickListener(view ->{ //删除文件
+//            File file1 = getActivity().getFilesDir();    //获取APP内部存储地址
+            File file = new File(getActivity().getFilesDir() + "/testData");    //获取APP内部存储地址
+            LOGUtils.LOG("缓存文本 " + file.getPath()
+             + "  " + file.getUsableSpace());
+            LOGUtils.LOG("缓存文本 " + file.exists());
+            if(file.exists()) file.delete();
+            else setText("文件不存在");
+
+            LOGUtils.LOG("getExternalStorageDirectory : " + Environment.getExternalStorageDirectory()); //这个目录下的文件不会被删除
+//            LOGUtils.LOG("getStorageState : " + EnvironmentCompat.getStorageState(null));
+
+            LOGUtils.LOG("getCacheDir : " + getActivity().getCacheDir());
+            LOGUtils.LOG("getFilesDir : " + getActivity().getFilesDir());
+            LOGUtils.LOG("getExternalCacheDir : " + getActivity().getExternalCacheDir());
+            LOGUtils.LOG("getExternalFilesDir : " + getActivity().getExternalFilesDir(null));
+
+        });
+
         return mView;
+    }
+
+    private void setText(Object t){
+        mInfoTv.setText(t.toString());
+    }
+
+    private void appendText(Object t){
+        mInfoTv.append(t.toString() + "\n") ;
     }
 
     private boolean writeFile(){

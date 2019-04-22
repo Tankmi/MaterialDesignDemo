@@ -191,6 +191,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			String fileName = "crash-" + time + "-" + timestamp + ".log";
 			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 				String path = Environment.getExternalStorageDirectory() + LibPreferenceEntity.KEY_CACHE_PATH;//存放异常文件的目录！
+				LOGUtils.LOG("crashHandler: " + path);
 				File dir = new File(path);
 				if (!dir.exists()) {
 					//dir.mkdirs();
