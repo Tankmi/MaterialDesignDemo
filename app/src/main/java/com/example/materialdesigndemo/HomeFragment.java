@@ -1,6 +1,5 @@
 package com.example.materialdesigndemo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,48 +9,38 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.materialdesigndemo.context.PreferenceEntity;
-
 import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import huitx.libztframework.context.LibPreferenceEntity;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.ToastUtils;
 
 public class HomeFragment extends Fragment{
-    protected View mView; // 当前界面的根
-    private Button mBtn;
     private static ImageView mImg;
 
     private static final String ARG_NUMBER = "arg_number";
 
-    public static HomeFragment newInstance(int number) {
+    static HomeFragment newInstance() {
         Bundle bundle = new Bundle();
-        bundle.putInt(ARG_NUMBER, number);
+        bundle.putInt(ARG_NUMBER, R.drawable.lianpo);
 
         HomeFragment detailFragment = new HomeFragment();
         detailFragment.setArguments(bundle);
@@ -69,10 +58,11 @@ public class HomeFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mView = View.inflate(getActivity(), R.layout.fragment_home, null);
+        // 当前界面的根
+        View mView = View.inflate(getActivity(), R.layout.fragment_home, null);
 //		view = inflater.inflate(layoutId, container, false);
 
-        mBtn = mView.findViewById(R.id.btn_home_fra);
+        Button mBtn = mView.findViewById(R.id.btn_home_fra);
         mImg = mView.findViewById(R.id.img_homt_fra);
         mBtn.setOnClickListener(view -> {
             LOGUtils.LOG("启动info");

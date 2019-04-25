@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         mTransaction = manager.beginTransaction();
         if (mHomeFragment == null){
 //            mHomeFragment = new HomeFragment();
-            mHomeFragment = HomeFragment.newInstance(R.drawable.lianpo);
+            mHomeFragment = HomeFragment.newInstance();
 
             //Fade 淡入淡出
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {  //使用androidx版本库，可以兼容低版本
