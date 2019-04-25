@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goFileFragment(){
-//        if (manager == null) manager = getSupportFragmentManager();
+        if (manager == null) manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .addToBackStack(null)
                 .add(R.id.frame_main, new FileFragment())

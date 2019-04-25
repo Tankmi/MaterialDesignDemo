@@ -62,6 +62,16 @@
         android:text="Rename"
         android:background="@color/yellow"
         app:layout_constraintStart_toEndOf="@id/btn_delete_file_fra"
+        app:layout_constraintEnd_toEndOf="@id/btn_list_file_fra"
+        app:layout_constraintTop_toBottomOf="@id/et_file_fra" />
+
+    <Button
+        android:id="@+id/btn_list_file_fra"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Get"
+        android:background="@color/red"
+        app:layout_constraintStart_toEndOf="@id/btn_rename_file_fra"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_file_fra" />
 
