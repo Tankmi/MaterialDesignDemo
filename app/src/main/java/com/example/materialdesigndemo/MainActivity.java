@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar mtoolBar;
     private ImageView mImg;
-    private Button mFileBtn;
+    private Button mFileBtn, mBookBtn;
 
 
     @Override
@@ -51,8 +51,12 @@ public class MainActivity extends AppCompatActivity {
         mtoolBar = findViewById(R.id.toolbar_title);
         mImg = findViewById(R.id.img_main);
         mFileBtn = findViewById(R.id.btn_main_01);
+        mBookBtn = findViewById(R.id.btn_main_02);
         mFileBtn.setOnClickListener(view ->{
             goFileFragment();
+        });
+        mBookBtn.setOnClickListener(view ->{
+            goAIDLFragment();
         });
 
         ViewCompat.setTransitionName(mImg, getResources().getString(R.string.home_sharedelement));
@@ -73,13 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .add(R.id.frame_main, new FileFragment())
                 .commitAllowingStateLoss();
-
-        LOG("getSupportFragmentManager() : " + "getFragments().size()   " + getSupportFragmentManager().getFragments().size() + "\n"
-                + "getFragments().toString()   " + getSupportFragmentManager().getFragments().toString());
-
-        LOG("getFragments().size()   " + manager.getFragments().size() + "\n"
-                + "getFragments().toString()   " + manager.getFragments().toString());
     }
+
+
 
     FragmentManager manager;
     FragmentTransaction mTransaction;
@@ -247,6 +247,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+    private void goAIDLFragment(){
+        if (manager == null) manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.frame_main, new AIDLFragment())
+                .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
 
 }
