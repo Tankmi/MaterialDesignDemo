@@ -6,6 +6,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +54,12 @@ public class AIDLFragment extends Fragment{
         fileRenameBtn = mView.findViewById(R.id.btn_rename_file_fra);
         fileListsBtn = mView.findViewById(R.id.btn_list_file_fra);
 
-        fileWriteBtn.setOnClickListener(view -> {   //缓存文本内容到文件中
-//            setText(writeFile());
-        });
+        fileWriteBtn.setText("读取");
+        fileReadBtn.setText("添加inout");
+        fileDelBtn.setText("添加in");
+        fileRenameBtn.setText("添加out");
 
-        fileReadBtn.setOnClickListener(view ->{ //读取文本
-//            setText(readFile());
+        fileWriteBtn.setOnClickListener(view -> {  //读取
             if (connected) {
                 try {
                     bookList = bookManager.getBookList();
@@ -69,11 +70,43 @@ public class AIDLFragment extends Fragment{
             }else LOGUtils.LOG("serviceUnConnected");
         });
 
-        fileDelBtn.setOnClickListener(view ->{ //删除文件
-//            File file1 = getActivity().getFilesDir();    //获取APP内部存储地址
+        fileReadBtn.setOnClickListener(view ->{ //添加inout
+            if (connected) {
+                Book book = new Book("这是一本新书 InOut");
+                try {
+                    bookManager.addBookInOut(book);
+                    LOG( "向服务器以InOut方式添加了一本新书");
+                    LOG( "新书名：" + book.getBookName());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
-        fileRenameBtn.setOnClickListener(view ->{
+        fileDelBtn.setOnClickListener(view ->{ //添加in
+            if (connected) {
+                Book book = new Book("这是一本新书 In");
+                try {
+                    bookManager.addBookIn(book);
+                    LOG( "向服务器以In方式添加了一本新书");
+                    LOG( "新书名：" + book.getBookName());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        fileRenameBtn.setOnClickListener(view ->{   //添加out
+            if (connected) {
+                Book book = new Book("这是一本新书 Out");
+                try {
+                    bookManager.addBookOut(book);
+                    LOG("向服务器以Out方式添加了一本新书");
+                    LOG("新书名：" + book.getBookName());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         fileListsBtn.setOnClickListener(view ->{
